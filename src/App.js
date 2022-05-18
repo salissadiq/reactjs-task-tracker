@@ -1,6 +1,8 @@
+import {useState} from 'react'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
-import {useState} from 'react'
+import AddTask from './components/AddTask'
+
 function App() {
   const [tasks, setTask] = useState([
     {
@@ -22,14 +24,20 @@ function App() {
         reminder: true
     }
 ]) 
+
+const [showAddTask, setShowAddTask] = useState(false)
+
+ function handleShowAddTask(){
+  setShowAddTask(prevState => !prevState)
+  }
+
   function handleDeleteTask(task) {
     let tasksArray = [...tasks]
     const index = tasksArray.indexOf(task)
-
-    setTask()
+    tasksArray.splice(index, 1)
+    setTask(tasksArray);
 
   }
-  console.log(tasks)
   function setReminder(id) {
     // console.log('Set reminder', task)
     setTask(prevTasks=>(
@@ -38,10 +46,25 @@ function App() {
       ))
     ))
   }
+function addTask({task, day, reminder}){
+  setTask(prevTasks =>(
+    [
+      ...prevTasks,
+      {
+        id: prevTasks.length + 1,
+        text: task,
+        day: day,
+        reminder: reminder
+      }
+    ]
+  ))
+}
+
   return (
     <div className="container">
-      <Header />
-      <Tasks tasks={tasks} onReminder={setReminder} onDelete={handleDeleteTask}/>
+      <Header handleShowAddTask={handleShowAddTask} showAddTask={showAddTask} />
+      {showAddTask && <AddTask onAdd={addTask} />}
+      <Tasks tasks={tasks} onReminder={setReminder} onDelete={handleDeleteTask}  />
     </div>
   );
 }

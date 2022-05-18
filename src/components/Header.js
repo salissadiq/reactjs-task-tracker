@@ -2,14 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from './Button'
 
-export default function Header(props) {
-    function handleClick() {
-        console.log('CLicked')
-    }
+export default function Header({title, handleShowAddTask, showAddTask}) {
   return (
     <header className="header">
-        <h1 className="title">{props.title}</h1>
-        <Button color="green" text="Add" handleClick={handleClick} />
+        <h1 className="title">{title}</h1>
+        <Button color={showAddTask ? 'red' : 'green'} text={showAddTask ? 'Close' : 'Add'} handleClick={handleShowAddTask} />
     </header>    
   )
 }
