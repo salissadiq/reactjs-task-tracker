@@ -1,9 +1,9 @@
 import Task from './Task'
 
-export default function Tasks({tasks, onDelete, setReminder}) {
+export default function Tasks({tasks, onDelete, onReminder}) {
     
     const tasksElements = tasks.map(task=>(
-        <Task key={task.id} task={task} setReminder={setReminder} onDelete={onDelete} />
+        <Task key={task.id} task={task} onReminder={onReminder} onDelete={onDelete} />
     ))
   return (
     <div>{tasksElements}</div>

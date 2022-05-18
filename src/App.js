@@ -29,13 +29,19 @@ function App() {
     setTask()
 
   }
-  function setReminder() {
-    console.log('Set reminder')
+  console.log(tasks)
+  function setReminder(id) {
+    // console.log('Set reminder', task)
+    setTask(prevTasks=>(
+      prevTasks.map(task => (
+        task.id === id ? {...task, reminder: !task.reminder} : task
+      ))
+    ))
   }
   return (
     <div className="container">
       <Header />
-      <Tasks tasks={tasks} setReminder={setReminder} onDelete={handleDeleteTask}/>
+      <Tasks tasks={tasks} onReminder={setReminder} onDelete={handleDeleteTask}/>
     </div>
   );
 }
