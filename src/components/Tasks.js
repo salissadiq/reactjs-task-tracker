@@ -6,6 +6,9 @@ export default function Tasks({tasks, onDelete, onReminder}) {
         <Task key={task.id} task={task} onReminder={onReminder} onDelete={onDelete} />
     ))
   return (
-    <div>{tasksElements}</div>
+    <div>
+      {tasks.length > 0 ? tasksElements : 'No Tasks'}
+      </div>
+
   )
 }

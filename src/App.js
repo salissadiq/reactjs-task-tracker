@@ -1,37 +1,38 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 
 function App() {
   const [tasks, setTask] = useState([
-    {
-        id: 1,
-        text: "Doctors appointment",
-        day: "Feb 5 2022",
-        reminder: false
-    },
-    {
-        id: 2,
-        text: "Doctors appointment",
-        day: "Feb 5 2022",
-        reminder: false
-    },
-    {
-        id: 3,
-        text: "FlexiSaf Interview",
-        day: "Feb 5 2022",
-        reminder: true
-    }
+    
 ]) 
 
 const [showAddTask, setShowAddTask] = useState(false)
+
+
+  useEffect( ()=> {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTask()
+      setTask(tasksFromServer)
+    }
+    getTasks()
+  }, [])
+
+  async function fetchTask() {
+    const res = await fetch('http://localhost:5000/tasks')
+    const data = await res.json()
+    return data
+  }
 
  function handleShowAddTask(){
   setShowAddTask(prevState => !prevState)
   }
 
-  function handleDeleteTask(task) {
+  async function handleDeleteTask(task) {
+    await fetch(`http://localhost:5000/tasks/${task.id}`,
+    {method: 'DELETE'}
+    )
     let tasksArray = [...tasks]
     const index = tasksArray.indexOf(task)
     tasksArray.splice(index, 1)
@@ -46,6 +47,7 @@ const [showAddTask, setShowAddTask] = useState(false)
       ))
     ))
   }
+
 function addTask({task, day, reminder}){
   setTask(prevTasks =>(
     [
